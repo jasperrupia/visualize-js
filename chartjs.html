@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Charts </title>
+    <meta name="description" content="description here">
+    <meta name="keywords" content="keywords,here">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!--Replace with your tailwind.css once created-->
+    
+    <!--Chart js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpine-collective/alpine-magic-helpers@0.5.x/dist/component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+    <!-- <script src="./js/plugins/chartjs.min.js" async></script> -->
+
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <nav id="header" class="bg-white fixed w-full z-10 top-0 shadow">
+
+
+        <div class="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
+
+            <div class="w-1/2 pl-2 md:pl-0">
+                <a class="text-gray-900 text-base xl:text-xl no-underline hover:no-underline font-bold" href="#">
+                    <i class="fas fa-chart-area fa-fw mr-3"></i> Chart dashboard 
+                </a>
+            </div>
+            <div class="w-1/2 pr-0">
+                <div class="flex relative inline-block float-right">
+
+                    <div class="relative text-sm">
+                        <button id="userButton" class="flex items-center focus:outline-none mr-3">
+                            <img class="w-8 h-8 rounded-full mr-4" src="http://i.pravatar.cc/300" alt="Avatar of User"> <span class="hidden md:inline-block">Hi, User </span>
+                            <svg class="pl-2 h-2" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
+                                <g>
+                                    <path d="m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z" />
+                                </g>
+                            </svg>
+                        </button>
+                        <div id="userMenu" class="bg-white rounded shadow-md mt-2 absolute mt-12 top-0 right-0 min-w-full overflow-auto z-30 invisible">
+                            <ul class="list-reset">
+                                <li><a href="#" class="px-4 py-2 block text-gray-900 hover:bg-gray-400 no-underline hover:no-underline">My account</a></li>
+                                <li><a href="#" class="px-4 py-2 block text-gray-900 hover:bg-gray-400 no-underline hover:no-underline">Notifications</a></li>
+                                <li>
+                                    <hr class="border-t mx-2 border-gray-400">
+                                </li>
+                                <li><a href="#" class="px-4 py-2 block text-gray-900 hover:bg-gray-400 no-underline hover:no-underline">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="block lg:hidden pr-4">
+                        <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+                            <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <title>Menu</title>
+                                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-white z-20" id="nav-content">
+                <ul class="list-reset lg:flex flex-1 items-center px-4 md:px-0">
+                    <li class="mr-6 my-2 md:my-0">
+                        <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600">
+                            <i class=""></i><span class="pb-1 md:pb-0 text-sm"> Chart js</span>
+                        </a>
+                    </li>
+
+                    <li class="mr-6 my-2 md:my-0">
+                        <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500">
+                            <i class=""></i><span class="pb-1 md:pb-0 text-sm"> Google </span>
+                        </a>
+                    </li>
+
+                    <li class="mr-6 my-2 md:my-0">
+                        <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500">
+                            <i class=""></i><span class="pb-1 md:pb-0 text-sm">##</span>
+                        </a>
+                    </li>
+                    
+                    <li class="mr-6 my-2 md:my-0">
+                        <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500">
+                            <i class=""></i><span class="pb-1 md:pb-0 text-sm"> D3 </span>
+                        </a>
+                    </li>
+                
+                </ul>
+
+                <div class="relative pull-right pl-4 pr-4 md:pr-0">
+                    <input type="search" placeholder="Search" class="w-full bg-gray-100 text-sm text-gray-800 transition border focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal">
+                    <div class="absolute search-icon" style="top: 0.375rem;left: 1.75rem;">
+                        <svg class="fill-current pointer-events-none text-gray-800 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!--Container-->
+    <div class="container w-full mx-auto pt-20">
+
+        <div class="w-full px-4 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+
+            <div class="flex flex-row flex-wrap flex-grow mt-2">
+
+                
+                    <div class="w-full max-w-full md:w-1/2 xl:w-1/3 p-3">
+                        <div class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+                            <div class="flex-auto p-4">
+                                <div class="py-4 pr-1 mb-4 bg-gradient-to-tl from-gray-900 to-slate-800 rounded-xl">
+                                    <div>
+                                        <canvas id="chart-bars" height="170"></canvas>
+                                        <script>
+                                            var ctx = document.getElementById("chart-bars").getContext("2d");
+                                            new Chart(ctx, {
+                                                type: "bar",
+                                                data: {
+                                                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                                    datasets: [
+                                                    {   
+                                                        label: "Sales",
+                                                        tension: 0.4,
+                                                        borderWidth: 0,
+                                                        borderRadius: 4,
+                                                        borderSkipped: false,
+                                                        backgroundColor: "#fff",
+                                                        data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+                                                        maxBarThickness: 6,
+                                                    },
+                                                    ],
+                                                },
+                                                options: {
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                    },
+                                                    },
+                                                    interaction: {
+                                                    intersect: false,
+                                                    mode: "index",
+                                                    },
+                                                    scales: {
+                                                    y: {
+                                                        grid: {
+                                                        drawBorder: false,
+                                                        display: false,
+                                                        drawOnChartArea: false,
+                                                        drawTicks: false,
+                                                        },
+                                                        ticks: {
+                                                        suggestedMin: 0,
+                                                        suggestedMax: 600,
+                                                        beginAtZero: true,
+                                                        padding: 15,
+                                                        font: {
+                                                            size: 14,
+                                                            family: "Open Sans",
+                                                            style: "normal",
+                                                            lineHeight: 2,
+                                                        },
+                                                        color: "#fff",
+                                                        },
+                                                    },
+                                                    x: {
+                                                        grid: {
+                                                        drawBorder: false,
+                                                        display: false,
+                                                        drawOnChartArea: false,
+                                                        drawTicks: false,
+                                                        },
+                                                        ticks: {
+                                                        display: false,
+                                                        },
+                                                    },
+                                                    },
+                                                },
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <h6 class="mt-6 mb-0 ml-2">Active Users</h6>
+                                <p class="ml-2 leading-normal text-sm">(<span class="font-bold">+23%</span>) than last week</p>
+                                <div class="w-full px-6 mx-auto max-w-screen-2xl rounded-xl">
+                                    <div class="flex flex-wrap mt-0 -mx-3">
+                                        <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
+                                            <div class="flex mb-2">
+                                                <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-purple-700 to-pink-500 text-neutral-900">
+                                                    <svg width="10px" height="10px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <title>document</title>
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                                            <g transform="translate(1716.000000, 291.000000)">
+                                                                <g transform="translate(154.000000, 300.000000)">
+                                                                <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
+                                                                <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                    </svg>
+                                                </div>
+                                                <p class="mt-1 mb-0 font-semibold leading-tight text-xs">Users</p>
+                                            </div>
+                                            <h4 class="font-bold">36K</h4>
+                                            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
+                                                <div class="bg-blue-500 h-1.5 w-1/3 rounded-lg bg-slate-700 "></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
+                                            <div class="flex mb-2">
+                                                <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-blue-600 to-cyan-400 text-neutral-900">
+                                                    <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <title>spaceship</title>
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                                        <g transform="translate(1716.000000, 291.000000)">
+                                                                <g transform="translate(4.000000, 301.000000)">
+                                                                <path class="color-background" d="M39.3,0.706666667 C38.9660984,0.370464027 38.5048767,0.192278529 38.0316667,0.216666667 C14.6516667,1.43666667 6.015,22.2633333 5.93166667,22.4733333 C5.68236407,23.0926189 5.82664679,23.8009159 6.29833333,24.2733333 L15.7266667,33.7016667 C16.2013871,34.1756798 16.9140329,34.3188658 17.535,34.065 C17.7433333,33.98 38.4583333,25.2466667 39.7816667,1.97666667 C39.8087196,1.50414529 39.6335979,1.04240574 39.3,0.706666667 Z M25.69,19.0233333 C24.7367525,19.9768687 23.3029475,20.2622391 22.0572426,19.7463614 C20.8115377,19.2304837 19.9992882,18.0149658 19.9992882,16.6666667 C19.9992882,15.3183676 20.8115377,14.1028496 22.0572426,13.5869719 C23.3029475,13.0710943 24.7367525,13.3564646 25.69,14.31 C26.9912731,15.6116662 26.9912731,17.7216672 25.69,19.0233333 L25.69,19.0233333 Z" ></path>
+                                                                <path class="color-background" d="M1.855,31.4066667 C3.05106558,30.2024182 4.79973884,29.7296005 6.43969145,30.1670277 C8.07964407,30.6044549 9.36054508,31.8853559 9.7979723,33.5253085 C10.2353995,35.1652612 9.76258177,36.9139344 8.55833333,38.11 C6.70666667,39.9616667 0,40 0,40 C0,40 0,33.2566667 1.855,31.4066667 Z"></path>
+                                                                <path class="color-background" d="M17.2616667,3.90166667 C12.4943643,3.07192755 7.62174065,4.61673894 4.20333333,8.04166667 C3.31200265,8.94126033 2.53706177,9.94913142 1.89666667,11.0416667 C1.5109569,11.6966059 1.61721591,12.5295394 2.155,13.0666667 L5.47,16.3833333 C8.55036617,11.4946947 12.5559074,7.25476565 17.2616667,3.90166667 L17.2616667,3.90166667 Z" opacity="0.598539807"></path>
+                                                                <path class="color-background" d="M36.0983333,22.7383333 C36.9280725,27.5056357 35.3832611,32.3782594 31.9583333,35.7966667 C31.0587397,36.6879974 30.0508686,37.4629382 28.9583333,38.1033333 C28.3033941,38.4890431 27.4704606,38.3827841 26.9333333,37.845 L23.6166667,34.53 C28.5053053,31.4496338 32.7452344,27.4440926 36.0983333,22.7383333 L36.0983333,22.7383333 Z" opacity="0.598539807"></path>
+                                                            </g>
+                                                        </g>
+                                                        </g>
+                                                    </g>
+                                                    </svg>
+                                                </div>
+                                                <p class="mt-1 mb-0 font-semibold leading-tight text-xs">Clicks</p>
+                                            </div>
+                                            <h4 class="font-bold">2m</h4>
+                                            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
+                                                <div class="bg-blue-500 h-1.5 w-2/3 rounded-lg bg-slate-700 "></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
+                                            <div class="flex mb-2">
+                                                <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-red-500 to-yellow-400 text-neutral-900">
+                                                    <svg width="10px" height="10px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <title>credit-card</title>
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                                        <g transform="translate(1716.000000, 291.000000)">
+                                                            <g transform="translate(453.000000, 454.000000)">
+                                                                <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
+                                                                <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
+                                                            </g>
+                                                        </g>
+                                                        </g>
+                                                    </g>
+                                                    </svg>
+                                                </div>
+                                                <p class="mt-1 mb-0 font-semibold leading-tight text-xs">Sales</p>
+                                            </div>
+                                            <h4 class="font-bold">435$</h4>
+                                            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
+                                                <div class="bg-blue-500 h-1.5 w-1/2 rounded-lg bg-slate-700 "></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
+                                            <div class="flex mb-2">
+                                                <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-red-600 to-rose-400 text-neutral-900">
+                                                    <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <title>settings</title>
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                                        <g transform="translate(1716.000000, 291.000000)">
+                                                            <g transform="translate(304.000000, 151.000000)">
+                                                                <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                                                                <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
+                                                                <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                                                            </g>
+                                                        </g>
+                                                        </g>
+                                                    </g>
+                                                    </svg>
+                                                </div>
+                                                <p class="mt-1 mb-0 font-semibold leading-tight text-xs">Items</p>
+                                            </div>
+                                            <h4 class="font-bold">43</h4>
+                                            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
+                                                <div class="bg-blue-500 h-1.5 w-1/2 rounded-lg bg-slate-700 "></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full max-w-full md:w-1/2 xl:w-2/3 p-3">
+                        <div class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+                            <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+                            <h6>Sales overview</h6>
+                            <p class="leading-normal text-sm">
+                                <i class="fa fa-arrow-up text-lime-500"></i>
+                                <span class="font-semibold">4% more</span> in 2021
+                            </p>
+                            </div>
+                            <div class="flex-auto p-4">
+                                <div>
+                                    <canvas id="chart-line" height="300"></canvas>
+                                    <script>
+                                        var ctx2 = document.getElementById("chart-line").getContext("2d");
+                                        var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+                
+                                        gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
+                                        gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
+                                        gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
+                
+                                        var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+                                        gradientStroke2.addColorStop(1, "rgba(20,23,39,0.2)");
+                                        gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0.0)");
+                                        gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
+                
+                                        new Chart(ctx2, {
+                                            type: "line",
+                                            data: {
+                                                labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                                datasets: [
+                                                    {
+                                                        label: "Mobile apps",
+                                                        tension: 0.4,
+                                                        borderWidth: 0,
+                                                        pointRadius: 0,
+                                                        borderColor: "#cb0c9f",
+                                                        borderWidth: 3,
+                                                        backgroundColor: gradientStroke1,
+                                                        fill: true,
+                                                        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                                                        maxBarThickness: 6,
+                                                    },
+                                                    {
+                                                        label: "Websites",
+                                                        tension: 0.4,
+                                                        borderWidth: 0,
+                                                        pointRadius: 0,
+                                                        borderColor: "#3A416F",
+                                                        borderWidth: 3,
+                                                        backgroundColor: gradientStroke2,
+                                                        fill: true,
+                                                        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                                                        maxBarThickness: 6,
+                                                    },
+                                                ],
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    legend: {
+                                                        display: false,
+                                                    },
+                                                },
+                                                interaction: {
+                                                    intersect: false,
+                                                    mode: "index",
+                                                },
+                                                scales: {
+                                                    y: {
+                                                        grid: {
+                                                            drawBorder: false,
+                                                            display: true,
+                                                            drawOnChartArea: true,
+                                                            drawTicks: false,
+                                                            borderDash: [5, 5],
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            padding: 10,
+                                                            color: "#b2b9bf",
+                                                            font: {
+                                                                size: 11,
+                                                                family: "Open Sans",
+                                                                style: "normal",
+                                                                lineHeight: 2,
+                                                            },
+                                                        },
+                                                    },
+                                                    x: {
+                                                        grid: {
+                                                        drawBorder: false,
+                                                        display: false,
+                                                        drawOnChartArea: false,
+                                                        drawTicks: false,
+                                                        borderDash: [5, 5],
+                                                        },
+                                                        ticks: {
+                                                            display: true,
+                                                            color: "#b2b9bf",
+                                                            padding: 20,
+                                                            font: {
+                                                                size: 11,
+                                                                family: "Open Sans",
+                                                                style: "normal",
+                                                                lineHeight: 2,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+
+
+                <div class="w-full md:w-1/2 p-3">
+                    <!--Graph Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600">Graph 1</h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-7" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                            new Chart(document.getElementById("chartjs-7"), {
+                                "type": "bar",
+                                "data": {
+                                    "labels": ["January", "February", "March", "April"],
+                                    "datasets": [{
+                                        "label": "Page Impressions",
+                                        "data": [10, 20, 30, 40],
+                                        "borderColor": "rgb(255, 99, 132)",
+                                        "backgroundColor": "rgba(255, 99, 132, 0.2)"
+                                    }, {
+                                        "label": "Adsense Clicks",
+                                        "data": [5, 15, 10, 30],
+                                        "type": "line",
+                                        "fill": false,
+                                        "borderColor": "rgb(54, 162, 235)"
+                                    }]
+                                },
+                                "options": {
+                                    "scales": {
+                                        "yAxes": [{
+                                            "ticks": {
+                                                "beginAtZero": true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+
+
+                <div class="w-full md:w-1/2 p-3">
+                    <!--Graph Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600">Graph 2</h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-0" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                            new Chart(document.getElementById("chartjs-0"), {
+                                "type": "line",
+                                "data": {
+                                    "labels": ["January", "February", "March", "April", "May", "June", "July"],
+                                    "datasets": [{
+                                        "label": "Views",
+                                        "data": [65, 59, 80, 81, 56, 55, 40],
+                                        "fill": false,
+                                        "borderColor": "rgb(75, 192, 192)",
+                                        "lineTension": 0.1
+                                    }]
+                                },
+                                "options": {}
+                            });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Graph Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600">Graph 3</h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-1" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                            new Chart(document.getElementById("chartjs-1"), {
+                                "type": "bar",
+                                "data": {
+                                    "labels": ["January", "February", "March", "April", "May", "June", "July"],
+                                    "datasets": [{
+                                        "label": "Likes",
+                                        "data": [65, 59, 80, 81, 56, 55, 40],
+                                        "fill": false,
+                                        "backgroundColor": ["rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"],
+                                        "borderColor": ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"],
+                                        "borderWidth": 1
+                                    }]
+                                },
+                                "options": {
+                                    "scales": {
+                                        "yAxes": [{
+                                            "ticks": {
+                                                "beginAtZero": true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Graph Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600">Graph 4</h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartjs-4" class="chartjs" width="undefined" height="undefined"></canvas>
+                            <script>
+                            new Chart(document.getElementById("chartjs-4"), {
+                                "type": "doughnut",
+                                "data": {
+                                    "labels": ["P1", "P2", "P3"],
+                                    "datasets": [{
+                                        "label": "Issues",
+                                        "data": [300, 50, 100],
+                                        "backgroundColor": ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)"]
+                                    }]
+                                }
+                            });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Graph Card-->
+                </div>
+
+
+
+                <div class="w-full md:w-1/2 xl:w-1/3 p-3">
+                    <!--Template Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600"> Graph 5</h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="chartTwo" width="undefined" height="undefined"></canvas>
+                            <script>
+                                var chartTwo = document.getElementById('chartTwo');
+                                var myLineChart = new Chart(chartTwo, {
+                                    type: 'line',
+                                    data: {
+                                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                                        datasets: [{
+                                            label: '# of Votes',
+                                            data: [12, 19, 3, 5, 2, 3],
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            yAxes: [{
+                                                ticks: {
+                                                    beginAtZero: true
+                                                }
+                                            }]
+                                        }
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Template Card-->
+                </div>
+
+
+
+                <div class="w-full p-3">
+                    <!--Template Card-->
+                    <div class="bg-white border rounded-lg shadow">
+                        <div class="border-b p-3">
+                            <h5 class="font-bold uppercase text-gray-600"> Performance </h5>
+                        </div>
+                        <div class="p-5">
+                            <canvas id="big-line-chart" width="2992" height="1000" class="chartjs-render-monitor block" style="height: 400px; width: 1197px;"></canvas>
+                            <script>
+                                "use strict"; 
+                                var randomChartData = function (r) { 
+                                    for (var o = [], a = 0; a < r; a++)o.push(Math.round(200 * Math.random())); 
+                                    return o 
+                                },
+                                chartColors = { 
+                                    default: { 
+                                        primary: "#00D1B2", info: "#209CEE", danger: "#FF3860" 
+                                    } }, 
+                                ctx = document.getElementById("big-line-chart").getContext("2d"); 
+                                new Chart(ctx, { 
+                                    type: "line", data: { 
+                                        datasets: [{ 
+                                            fill: !1, 
+                                            borderColor: chartColors.default.primary, 
+                                            borderWidth: 2, 
+                                            borderDash: [], 
+                                            borderDashOffset: 0, 
+                                            pointBackgroundColor: chartColors.default.primary, 
+                                            pointBorderColor: "rgba(255,255,255,0)", 
+                                            pointHoverBackgroundColor: chartColors.default.primary, 
+                                            pointBorderWidth: 20, 
+                                            pointHoverRadius: 4,
+                                            pointHoverBorderWidth: 15, 
+                                            pointRadius: 4, 
+                                            data: randomChartData(9) 
+                                        }, { 
+                                            fill: !1, 
+                                            borderColor: chartColors.default.info, 
+                                            borderWidth: 2, borderDash: [], 
+                                            borderDashOffset: 0, 
+                                            pointBackgroundColor: chartColors.default.info, 
+                                            pointBorderColor: "rgba(255,255,255,0)", 
+                                            pointHoverBackgroundColor: chartColors.default.info, 
+                                            pointBorderWidth: 20, pointHoverRadius: 4, 
+                                            pointHoverBorderWidth: 15, pointRadius: 4, 
+                                            data: randomChartData(9) 
+                                        }, { 
+                                            fill: !1, borderColor: chartColors.default.danger, 
+                                            borderWidth: 2, borderDash: [], 
+                                            borderDashOffset: 0, 
+                                            pointBackgroundColor: chartColors.default.danger, 
+                                            pointBorderColor: "rgba(255,255,255,0)", 
+                                            pointHoverBackgroundColor: chartColors.default.danger, 
+                                            pointBorderWidth: 20, pointHoverRadius: 4, 
+                                            pointHoverBorderWidth: 15, pointRadius: 4, 
+                                            data: randomChartData(9) 
+                                        }], 
+                                        labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09"] 
+                                    }, 
+                                    options: { 
+                                        maintainAspectRatio: !1, 
+                                        legend: { display: !1 }, 
+                                        responsive: !0, tooltips: { 
+                                            backgroundColor: "#f5f5f5", 
+                                            titleFontColor: "#333", 
+                                            bodyFontColor: "#666", 
+                                            bodySpacing: 4, 
+                                            xPadding: 12, mode: "nearest", 
+                                            intersect: 0, position: "nearest" 
+                                        }, scales: { 
+                                            yAxes: [{ 
+                                                barPercentage: 1.6, gridLines: { 
+                                                    drawBorder: !1, color: "rgba(29,140,248,0.0)", 
+                                                    zeroLineColor: "transparent" 
+                                                }, ticks: { 
+                                                    padding: 20, fontColor: "#9a9a9a" 
+                                                } 
+                                            }], xAxes: [{ 
+                                                barPercentage: 1.6, 
+                                                gridLines: { 
+                                                    drawBorder: !1, 
+                                                    color: "rgba(225,78,202,0.1)", 
+                                                    zeroLineColor: "transparent" 
+                                                }, ticks: { 
+                                                    padding: 20, fontColor: "#9a9a9a" 
+                                                } 
+                                            }] 
+                                        } 
+                                    } 
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <!--/Template Card-->
+                </div>
+
+
+
+
+                <!-- Doughnut/Pie chart -->
+                <div  class="w-full md:w-1/2 xl:w-1/3 p-4">
+                    <div class="bg-white rounded-lg shadow-xs dark:bg-gray-800 shadow">
+                        <div class="p-3">
+                            <h5 class="font-bold uppercase text-gray-600"> Doughnut </h5>
+                        </div>
+                        <canvas id="pie"></canvas>
+                        <script>
+                            const pieConfig = {
+                                type: 'doughnut',
+                                data: {
+                                datasets: [
+                                    {
+                                    data: [33, 33, 33],
+                                    backgroundColor: ['#0694a2', '#1c64f2', '#7e3af2'],
+                                    label: 'Dataset 1',
+                                    },
+                                ],
+                                labels: ['Shoes', 'Shirts', 'Bags'],
+                                },
+                                options: {
+                                responsive: true,
+                                cutoutPercentage: 80,
+                                legend: {
+                                    display: false,
+                                },
+                                },
+                            }
+                            
+                            // change this to the id of your chart element in HMTL
+                            const pieCtx = document.getElementById('pie')
+                            window.myPie = new Chart(pieCtx, pieConfig)                          
+                        </script>
+                        <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400 p-3">
+                        <!-- Chart legend -->
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-blue-600 rounded-full"></span>
+                                <span>Shirts</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                                <span>Shoes</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full" ></span>
+                                <span>Bags</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Lines chart -->
+                <div  class="w-full md:w-1/2 xl:w-1/3 p-4">
+                    <div class="bg-white rounded-lg shadow-xs dark:bg-gray-800 shadow">
+                        <div class="p-3">
+                            <h5 class="font-bold uppercase text-gray-600"> Line </h5>
+                        </div>
+                        <canvas id="line"></canvas>
+                        <script>
+                            const lineConfig = {
+                                type: 'line',
+                                data: {
+                                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                datasets: [
+                                    {
+                                        label: 'Organic',
+                                        backgroundColor: '#0694a2',
+                                        borderColor: '#0694a2',
+                                        data: [43, 48, 40, 54, 67, 73, 70],
+                                        fill: false,
+                                    },
+                                    {
+                                    label: 'Paid',
+                                    fill: false,
+                                    backgroundColor: '#7e3af2',
+                                    borderColor: '#7e3af2',
+                                    data: [24, 50, 64, 74, 52, 51, 65],
+                                    },
+                                ],
+                                },
+                                options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false,
+                                },
+                                hover: {
+                                    mode: 'nearest',
+                                    intersect: true,
+                                },
+                                scales: {
+                                    x: {
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Month',
+                                    },
+                                    },
+                                    y: {
+                                    display: true,
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Value',
+                                    },
+                                    },
+                                },
+                                },
+                            }
+                            
+                            // change this to the id of your chart element in HMTL
+                            const lineCtx = document.getElementById('line')
+                            window.myLine = new Chart(lineCtx, lineConfig)
+                            
+                        </script>
+                        <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400p-3 p-3">
+                            <!-- Chart legend -->
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                                <span>Organic</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                                <span>Paid</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Bars chart -->
+                <div class="w-full md:w-1/2 xl:w-1/3 p-4">
+                    <div class="bg-white rounded-lg shadow-xs dark:bg-gray-800 shadow">
+                        <div class="p-3">
+                            <h5 class="font-bold uppercase text-gray-600"> Bar </h5>
+                        </div>
+                        <canvas id="bars"></canvas>
+                        <script>
+                            const barConfig = {
+                                type: 'bar',
+                                data: {
+                                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                datasets: [
+                                    {
+                                        label: 'Shoes',
+                                        backgroundColor: '#0694a2',
+                                        // borderColor: window.chartColors.red,
+                                        borderWidth: 1,
+                                        data: [-3, 14, 52, 74, 33, 90, 70],
+                                    },
+                                    {
+                                        label: 'Bags',
+                                        backgroundColor: '#7e3af2',
+                                        // borderColor: window.chartColors.blue,
+                                        borderWidth: 1,
+                                        data: [66, 33, 43, 12, 54, 62, 84],
+                                    },
+                                ],
+                                },
+                                options: {
+                                responsive: true,
+                                legend: {
+                                    display: false,
+                                },
+                                },
+                            }
+                            
+                            const barsCtx = document.getElementById('bars')
+                            window.myBar = new Chart(barsCtx, barConfig)
+                        </script>
+                        <div class="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400 p-3">
+                            <!-- Chart legend -->
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-teal-500 rounded-full"></span>
+                                <span>Shoes</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 bg-purple-600 rounded-full"></span>
+                                <span>Bags</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Bar chart card -->
+                <div x-data="setup()" class="w-full md:w-1/2 xl:w-2/3 p-4">
+                    <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+                        <!-- Card header -->
+                        <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                            <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Bar Chart</h4>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500 dark:text-light">Last year</span>
+                                <button class="bg-gray-300 rounded-xl relative focus:outline-none" x-cloak @click="isOn = !isOn; $parent.updateBarChart(isOn)">
+                                    <div class="w-12 h-6 transition rounded-full outline-none bg-gray-300 dark:bg-primary-darker"></div>
+                                    <div class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
+                                        :class="{ 'translate-x-0  bg-gray-400 dark:bg-primary-100': !isOn, 'translate-x-6 bg-green-400 dark:bg-primary': isOn }">
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="relative p-4 h-72">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Doughnut chart card -->
+                <div x-data="setup()" class="w-full md:w-1/2 xl:w-1/3 p-4">
+                    <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+                        <!-- Card header -->
+                        <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                        <h4 class="text-lg font-semibold text-gray-500 dark:text-light"> Doughnut Chart</h4>
+                        <div class="flex items-center">
+                            <button class="bg-gray-300 rounded-xl relative focus:outline-none" x-cloak @click="isOn = !isOn; $parent.updateDoughnutChart(isOn)">
+                            <div  class="w-12 h-6 transition rounded-full outline-none bg-gray-300 dark:bg-primary-darker"></div>
+                            <div class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
+                                :class="{ 'translate-x-0  bg-gray-400 dark:bg-primary-100': !isOn, 'translate-x-6 bg-green-400 dark:bg-primary': isOn }">
+                            </div>
+                            </button>
+                        </div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="relative p-4 h-72">
+                            <canvas id="doughnutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <!-- Active users chart -->
+                <div class="w-full md:w-1/2 xl:w-1/3 p-4">
+                    <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+                        <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                            <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Active users right now</h4>
+                        </div>
+                        <p class="p-4">
+                            <span class="text-2xl font-medium text-gray-500 dark:text-light" id="usersCount">0</span>
+                            <span class="text-sm font-medium text-gray-500 dark:text-primary">Users</span>
+                        </p>
+                        <!-- Chart -->
+                        <div class="relative p-4 h-72">
+                            <canvas id="activeUsersChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Line chart card -->
+                <div x-data="setup()" class="w-full md:w-1/2 xl:w-2/3 p-4">
+                    <div class="bg-white rounded-md dark:bg-darker" x-data="{ isOn: false }">
+                        <div class="flex items-center justify-between p-4 border-b dark:border-primary">
+                            <h4 class="text-lg font-semibold text-gray-500 dark:text-light">Line Chart</h4>
+                            <div class="flex items-center">
+                                <button class="bg-gray-300 rounded-xl relative focus:outline-none" x-cloak @click="isOn = !isOn; $parent.updateLineChart()" >
+                                    <div class="w-12 h-6 transition rounded-full outline-none bg-gray-300 dark:bg-primary-darker"></div>
+                                    <div class="absolute top-0 left-0 inline-flex items-center justify-center w-6 h-6 transition-all duration-200 ease-in-out transform scale-110 rounded-full shadow-sm"
+                                        :class="{ 'translate-x-0  bg-gray-400 dark:bg-primary-100': !isOn, 'translate-x-6 bg-green-400 dark:bg-primary': isOn }">
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Chart -->
+                        <div class="relative p-4 h-72">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    // All javascript code in this project for now is just for demo DON'T RELY ON IT
+
+                    const random = (max = 100) => {
+                    return Math.round(Math.random() * max) + 20
+                    }
+                    const randomData = () => {
+                    return [
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                        random(),
+                    ]
+                    }
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+                    const cssColors = (color) => {
+                        return getComputedStyle(document.documentElement).getPropertyValue(color)
+                    }
+                    const getColor = () => {
+                        return window.localStorage.getItem('color') ?? 'cyan'
+                    }
+                    const colors = {
+                        primary: cssColors(`--color-${getColor()}`),
+                        primaryLight: cssColors(`--color-${getColor()}-light`),
+                        primaryLighter: cssColors(`--color-${getColor()}-lighter`),
+                        primaryDark: cssColors(`--color-${getColor()}-dark`),
+                        primaryDarker: cssColors(`--color-${getColor()}-darker`),
+                    }
+                    const barChart = new Chart(document.getElementById('barChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: months,
+                            datasets: [
+                            {
+                                data: randomData(),
+                                backgroundColor: colors.primary,
+                                hoverBackgroundColor: colors.primaryDark,
+                            },
+                            ],
+                        },
+                        options: {
+                            scales: {
+                            yAxes: [
+                                {
+                                gridLines: false,
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepSize: 50,
+                                    fontSize: 12,
+                                    fontColor: '#97a4af',
+                                    fontFamily: 'Open Sans, sans-serif',
+                                    padding: 10,
+                                },
+                                },
+                            ],
+                            xAxes: [
+                                {
+                                gridLines: false,
+                                ticks: {
+                                    fontSize: 12,
+                                    fontColor: '#97a4af',
+                                    fontFamily: 'Open Sans, sans-serif',
+                                    padding: 5,
+                                },
+                                categoryPercentage: 0.5,
+                                maxBarThickness: '10',
+                                },
+                            ],
+                            },
+                            cornerRadius: 2,
+                            maintainAspectRatio: false,
+                            legend: {
+                            display: false,
+                            },
+                        },
+                    })
+
+                    const doughnutChart = new Chart(document.getElementById('doughnutChart'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Oct', 'Nov', 'Dec'],
+                            datasets: [
+                                {
+                                    data: [random(), random(), random()],
+                                    backgroundColor: [colors.primary, colors.primaryLighter, colors.primaryLight],
+                                    hoverBackgroundColor: colors.primaryDark,
+                                    borderWidth: 0,
+                                    weight: 0.5,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            legend: {
+                                position: 'bottom',
+                            },
+
+                            title: {
+                                display: false,
+                            },
+                            animation: {
+                                animateScale: true,
+                                animateRotate: true,
+                            },
+                        },
+                    })
+
+                    const activeUsersChart = new Chart(document.getElementById('activeUsersChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: [...randomData(), ...randomData()],
+                            datasets: [
+                                {
+                                    data: [...randomData(), ...randomData()],
+                                    backgroundColor: colors.primary,
+                                    borderWidth: 0,
+                                    categoryPercentage: 1,
+                                },
+                            ],
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [
+                                    {
+                                    display: false,
+                                    gridLines: false,
+                                    },
+                                ],
+                                xAxes: [
+                                    {
+                                    display: false,
+                                    gridLines: false,
+                                    },
+                                ],
+                                ticks: {
+                                    padding: 10,
+                                },
+                            },
+                            cornerRadius: 2,
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false,
+                            },
+                            tooltips: {
+                                prefix: 'Users',
+                                bodySpacing: 4,
+                                footerSpacing: 4,
+                                hasIndicator: true,
+                                mode: 'index',
+                                intersect: true,
+                            },
+                            hover: {
+                                mode: 'nearest',
+                                intersect: true,
+                            },
+                        },
+                    })
+
+                    const lineChart = new Chart(document.getElementById('lineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: months,
+                        datasets: [
+                        {
+                            data: randomData(),
+                            fill: false,
+                            borderColor: colors.primary,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            pointHoverRadius: 0,
+                        },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                        yAxes: [
+                            {
+                            gridLines: false,
+                            ticks: {
+                                beginAtZero: false,
+                                stepSize: 50,
+                                fontSize: 12,
+                                fontColor: '#97a4af',
+                                fontFamily: 'Open Sans, sans-serif',
+                                padding: 20,
+                            },
+                            },
+                        ],
+                        xAxes: [
+                            {
+                            gridLines: false,
+                            },
+                        ],
+                        },
+                        maintainAspectRatio: false,
+                        legend: {
+                        display: false,
+                        },
+                        tooltips: {
+                        hasIndicator: true,
+                        intersect: false,
+                        },
+                    },
+                    })
+
+                    let randomUserCount = 0
+
+                    const usersCount = document.getElementById('usersCount')
+
+                    const fakeUsersCount = () => {
+                    randomUserCount = random()
+                    activeUsersChart.data.datasets[0].data.push(randomUserCount)
+                    activeUsersChart.data.datasets[0].data.splice(0, 1)
+                    activeUsersChart.update()
+                    usersCount.innerText = randomUserCount
+                    }
+
+                    setInterval(() => {
+                    fakeUsersCount()
+                    }, 1000)
+                    const setup = () => {
+                        const getTheme = () => {
+                          if (window.localStorage.getItem('dark')) {
+                            return JSON.parse(window.localStorage.getItem('dark'))
+                          }
+                
+                          return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                        }
+                
+                        const setTheme = (value) => {
+                          window.localStorage.setItem('dark', value)
+                        }
+                
+                        const getColor = () => {
+                          if (window.localStorage.getItem('color')) {
+                            return window.localStorage.getItem('color')
+                          }
+                          return 'cyan'
+                        }
+                
+                        const setColors = (color) => {
+                          const root = document.documentElement
+                          root.style.setProperty('--color-primary', `var(--color-${color})`)
+                          root.style.setProperty('--color-primary-50', `var(--color-${color}-50)`)
+                          root.style.setProperty('--color-primary-100', `var(--color-${color}-100)`)
+                          root.style.setProperty('--color-primary-light', `var(--color-${color}-light)`)
+                          root.style.setProperty('--color-primary-lighter', `var(--color-${color}-lighter)`)
+                          root.style.setProperty('--color-primary-dark', `var(--color-${color}-dark)`)
+                          root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
+                          this.selectedColor = color
+                          window.localStorage.setItem('color', color)
+                          //
+                        }
+                
+                        const updateBarChart = (on) => {
+                          const data = {
+                            data: randomData(),
+                            backgroundColor: 'rgb(207, 250, 254)',
+                          }
+                          if (on) {
+                            barChart.data.datasets.push(data)
+                            barChart.update()
+                          } else {
+                            barChart.data.datasets.splice(1)
+                            barChart.update()
+                          }
+                        }
+                
+                        const updateDoughnutChart = (on) => {
+                          const data = random()
+                          const color = 'rgb(207, 250, 254)'
+                          if (on) {
+                            doughnutChart.data.labels.unshift('Seb')
+                            doughnutChart.data.datasets[0].data.unshift(data)
+                            doughnutChart.data.datasets[0].backgroundColor.unshift(color)
+                            doughnutChart.update()
+                          } else {
+                            doughnutChart.data.labels.splice(0, 1)
+                            doughnutChart.data.datasets[0].data.splice(0, 1)
+                            doughnutChart.data.datasets[0].backgroundColor.splice(0, 1)
+                            doughnutChart.update()
+                          }
+                        }
+                
+                        const updateLineChart = () => {
+                          lineChart.data.datasets[0].data.reverse()
+                          lineChart.update()
+                        }
+                
+                        return {
+                          loading: true,
+                          isDark: getTheme(),
+                          toggleTheme() {
+                            this.isDark = !this.isDark
+                            setTheme(this.isDark)
+                          },
+                          setLightTheme() {
+                            this.isDark = false
+                            setTheme(this.isDark)
+                          },
+                          setDarkTheme() {
+                            this.isDark = true
+                            setTheme(this.isDark)
+                          },
+                          color: getColor(),
+                          selectedColor: 'cyan',
+                          setColors,
+                          toggleSidbarMenu() {
+                            this.isSidebarOpen = !this.isSidebarOpen
+                          },
+                          isSettingsPanelOpen: false,
+                          openSettingsPanel() {
+                            this.isSettingsPanelOpen = true
+                            this.$nextTick(() => {
+                              this.$refs.settingsPanel.focus()
+                            })
+                          },
+                          isNotificationsPanelOpen: false,
+                          openNotificationsPanel() {
+                            this.isNotificationsPanelOpen = true
+                            this.$nextTick(() => {
+                              this.$refs.notificationsPanel.focus()
+                            })
+                          },
+                          isSearchPanelOpen: false,
+                          openSearchPanel() {
+                            this.isSearchPanelOpen = true
+                            this.$nextTick(() => {
+                              this.$refs.searchInput.focus()
+                            })
+                          },
+                          isMobileSubMenuOpen: false,
+                          openMobileSubMenu() {
+                            this.isMobileSubMenuOpen = true
+                            this.$nextTick(() => {
+                              this.$refs.mobileSubMenu.focus()
+                            })
+                          },
+                          isMobileMainMenuOpen: false,
+                          openMobileMainMenu() {
+                            this.isMobileMainMenuOpen = true
+                            this.$nextTick(() => {
+                              this.$refs.mobileMainMenu.focus()
+                            })
+                          },
+                          updateBarChart,
+                          updateDoughnutChart,
+                          updateLineChart,
+                        }
+                      }
+                </script>
+
+
+
+
+
+
+
+
+            </div>
+
+            <!--/ Console Content-->
+        </div>
+
+    </div>
+
+    <script>
+        /*Toggle dropdown list*/
+        var userMenuDiv = document.getElementById("userMenu");
+        var userMenu = document.getElementById("userButton");
+    
+        var navMenuDiv = document.getElementById("nav-content");
+        var navMenu = document.getElementById("nav-toggle");
+    
+        document.onclick = check;
+    
+        function check(e) {
+            var target = (e && e.target) || (event && event.srcElement);
+    
+            //User Menu
+            if (!checkParent(target, userMenuDiv)) {
+                // click NOT on the menu
+                if (checkParent(target, userMenu)) {
+                    // click on the link
+                    if (userMenuDiv.classList.contains("invisible")) {
+                        userMenuDiv.classList.remove("invisible");
+                    } else { userMenuDiv.classList.add("invisible"); }
+                } else {
+                    // click both outside link and outside menu, hide menu
+                    userMenuDiv.classList.add("invisible");
+                }
+            }
+    
+            //Nav Menu
+            if (!checkParent(target, navMenuDiv)) {
+                // click NOT on the menu
+                if (checkParent(target, navMenu)) {
+                    // click on the link
+                    if (navMenuDiv.classList.contains("hidden")) {
+                        navMenuDiv.classList.remove("hidden");
+                    } else { navMenuDiv.classList.add("hidden"); }
+                } else {
+                    // click both outside link and outside menu, hide menu
+                    navMenuDiv.classList.add("hidden");
+                }
+            }
+    
+        }
+    
+        function checkParent(t, elm) {
+            while (t.parentNode) {
+                if (t == elm) { return true; }
+                t = t.parentNode;
+            }
+            return false;
+        }
+    </script>
+</body>
+
+</html>
