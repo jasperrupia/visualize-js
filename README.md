@@ -2,12 +2,14 @@
 ## Top equirements: 
 ```
 Python 3.10.4
+virtualenvwrapper
 virtualenvwrapper-win
 ```
 
 ## Commands in windows cmd: 
 ```
-python -m pip install virtualenvwrapper-win
+python -m pip install virtualenvwrapper==4.8.4
+python -m pip install virtualenvwrapper-win==1.2.7
 
 mkvirtualenv visualize
 
@@ -15,7 +17,7 @@ workon visualize
 
 pip install -r requirements.txt
 
-python manage.py runserver
+flask --app main run
 
 ```
 

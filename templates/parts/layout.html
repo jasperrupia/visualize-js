@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    {% block head %}
     <title> {% block title %} {% endblock %} - dashboard </title>
     {% endblock %}
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     
 </head>
 <body>
@@ -64,7 +68,7 @@
                 <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-white z-20" id="nav-content">
                     <ul class="list-reset lg:flex flex-1 items-center px-4 md:px-0">
                         <li class="mr-6 my-2 md:my-0">
-                            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600">
+                            <a href="chartjs" class="block py-1 md:py-3 pl-1 align-middle text-pink-600 no-underline hover:text-gray-900 border-b-2 border-orange-600 hover:border-orange-600">
                                 <i class=""></i><span class="pb-1 md:pb-0 text-sm"> Chart js</span>
                             </a>
                         </li>
@@ -76,8 +80,8 @@
                         </li>
     
                         <li class="mr-6 my-2 md:my-0">
-                            <a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500">
-                                <i class=""></i><span class="pb-1 md:pb-0 text-sm">##</span>
+                            <a href="apexcharts" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-pink-500">
+                                <i class=""></i><span class="pb-1 md:pb-0 text-sm"> ApexCharts </span>
                             </a>
                         </li>
                         
@@ -112,7 +116,7 @@
     
     
     
-                    {% block chart %}
+                    {% block content %} {% endblock %}
     
 
                 </div>
@@ -124,6 +128,57 @@
     
     </body>
 </body>
+<script>
+    /*Toggle dropdown list*/
+    var userMenuDiv = document.getElementById("userMenu");
+    var userMenu = document.getElementById("userButton");
+
+    var navMenuDiv = document.getElementById("nav-content");
+    var navMenu = document.getElementById("nav-toggle");
+
+    document.onclick = check;
+
+    function check(e) {
+        var target = (e && e.target) || (event && event.srcElement);
+
+        //User Menu
+        if (!checkParent(target, userMenuDiv)) {
+            // click NOT on the menu
+            if (checkParent(target, userMenu)) {
+                // click on the link
+                if (userMenuDiv.classList.contains("invisible")) {
+                    userMenuDiv.classList.remove("invisible");
+                } else { userMenuDiv.classList.add("invisible"); }
+            } else {
+                // click both outside link and outside menu, hide menu
+                userMenuDiv.classList.add("invisible");
+            }
+        }
+
+        //Nav Menu
+        if (!checkParent(target, navMenuDiv)) {
+            // click NOT on the menu
+            if (checkParent(target, navMenu)) {
+                // click on the link
+                if (navMenuDiv.classList.contains("hidden")) {
+                    navMenuDiv.classList.remove("hidden");
+                } else { navMenuDiv.classList.add("hidden"); }
+            } else {
+                // click both outside link and outside menu, hide menu
+                navMenuDiv.classList.add("hidden");
+            }
+        }
+
+    }
+
+    function checkParent(t, elm) {
+        while (t.parentNode) {
+            if (t == elm) { return true; }
+            t = t.parentNode;
+        }
+        return false;
+    }
+</script>
 
 </html>
 

@@ -1,4 +1,2 @@
-virtualenv==20.14.1
-virtualenv-clone==0.5.7
-virtualenvwrapper==4.8.4
-virtualenvwrapper-win==1.2.7
+flask==2.2.1
+Jinja2==3.1.2
