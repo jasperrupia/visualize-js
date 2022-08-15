@@ -1,25 +1,15 @@
 
-## Top equirements: 
+## environments
 ```
-Python 3.10.4
-virtualenvwrapper
-virtualenvwrapper-win
+install Python 3.8+ from store or official site --> https://www.python.org/downloads/
+
+pip3 install virtualenv | pip install virtualenv
+
+virtualenv env
+
+source env/bin/activate
 ```
 
-## Commands in windows cmd: 
-```
-python -m pip install virtualenvwrapper==4.8.4
-python -m pip install virtualenvwrapper-win==1.2.7
-
-mkvirtualenv visualize-js
-
-workon visualize-js
-
-pip install -r requirements.txt
-
-flask --app main run
-
-```
 
 ## Tools & Languages
 
