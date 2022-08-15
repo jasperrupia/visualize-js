@@ -11,9 +11,9 @@ virtualenvwrapper-win
 python -m pip install virtualenvwrapper==4.8.4
 python -m pip install virtualenvwrapper-win==1.2.7
 
-mkvirtualenv visualize
+mkvirtualenv visualize-js
 
-workon visualize
+workon visualize-js
 
 pip install -r requirements.txt
 
